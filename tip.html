@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>담보·특약 선택 | DB손해보험 다이렉트 자동차보험</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" rel="stylesheet">
+<style>
+/* ========== Reset & Base ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, sans-serif;
+  background: #E8E4DA;
+  color: #0A0A0A;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.02em;
+  font-feature-settings: "tnum";
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+button:active { transform: scale(0.98); }
+
+/* ========== Desktop Frame ========== */
+.desktop-frame {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(ellipse at top, #F0ECE2 0%, #DCD7CB 100%);
+}
+.phone {
+  width: 100%;
+  max-width: 420px;
+  height: min(900px, calc(100vh - 48px));
+  background: #F5F2EB;
+  border-radius: 44px;
+  box-shadow: 
+    0 0 0 10px #1a1a1a,
+    0 0 0 12px #2a2a2a,
+    0 40px 80px -20px rgba(0,0,0,0.3),
+    0 20px 40px -10px rgba(0,0,0,0.2);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 480px) {
+  .desktop-frame { padding: 0; background: #F5F2EB; }
+  .phone { 
+    max-width: 100%; 
+    height: 100vh; 
+    border-radius: 0; 
+    box-shadow: none;
+  }
+}
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 28px;
+  background: #1a1a1a;
+  border-radius: 20px;
+  z-index: 100;
+}
+@media (max-width: 480px) { .phone::before { display: none; } }
+
+/* ========== Page Header ========== */
+.page-header {
+  padding-top: 54px;
+  background: white;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+@media (max-width: 480px) {
+  .page-header { padding-top: env(safe-area-inset-top, 12px); }
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  height: 48px;
+}
+.topbar-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 300;
+}
+.topbar-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.progress-bar {
+  display: flex;
+  padding: 0 16px 12px;
+  gap: 6px;
+  align-items: center;
+}
+.step {
+  font-size: 11px;
+  font-weight: 700;
+  color: #B5B5B5;
+  padding: 4px 0;
+}
+.step.active { color: #004940; }
+.step.done { color: #00A97A; }
+.step-sep {
+  flex: 1;
+  height: 2px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 10px;
+}
+.step-sep.done { background: #00A97A; }
+
+/* ========== Quote Summary Bar ========== */
+.quote-bar {
+  background: #0A0A0A;
+  color: white;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.quote-bar::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(0, 229, 160, 0.25), transparent 65%);
+  border-radius: 50%;
+}
+.quote-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 500;
+  margin-bottom: 2px;
+  position: relative;
+}
+.quote-price {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  position: relative;
+  font-variant-numeric: tabular-nums;
+}
+.quote-price small {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
+  margin-left: 3px;
+}
+.quote-save {
+  position: relative;
+  text-align: right;
+  font-size: 11px;
+  color: #00E5A0;
+  font-weight: 700;
+}
+.quote-save strong {
+  display: block;
+  font-size: 14px;
+  color: white;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+/* ========== Main Scrollable Content ========== */
+.main-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 120px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ========== AI Intro Banner ========== */
+.ai-intro {
+  margin: 16px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #004940 0%, #00604F 100%);
+  color: white;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 6px 16px -8px rgba(0, 73, 64, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+.ai-intro::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(0, 229, 160, 0.25), transparent 70%);
+  border-radius: 50%;
+}
+.ai-intro-icon {
+  width: 36px;
+  height: 36px;
+  background: #00E5A0;
+  color: #004940;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  font-weight: 900;
+  position: relative;
+}
+.ai-intro-text {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.ai-intro-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+}
+.ai-intro-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ========== Section ========== */
+.section {
+  margin: 20px 16px 8px;
+}
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0A0A0A;
+}
+.section-title-sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8B8B8B;
+}
+.section-info {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6B6B6B;
+}
+
+.section-body {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px -4px rgba(0,0,0,0.04);
+}
+
+/* ========== Coverage Item ========== */
+.cov-item {
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.cov-item:last-child { border-bottom: none; }
+
+.cov-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid rgba(0,0,0,0.15);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.cov-check.checked {
+  background: #004940;
+  border-color: #004940;
+}
+.cov-check.checked::after {
+  content: '✓';
+  color: #00E5A0;
+  font-weight: 900;
+  font-size: 14px;
+}
+.cov-check.locked {
+  background: #B5B5B5;
+  border-color: #B5B5B5;
+  cursor: not-allowed;
+}
+.cov-check.locked::after {
+  content: '✓';
+  color: white;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.cov-body {
+  flex: 1;
+  min-width: 0;
+}
+.cov-top-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.cov-name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0A0A0A;
+}
+.cov-required {
+  font-size: 10px;
+  font-weight: 700;
+  background: #FF3B30;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0;
+}
+.cov-recommended {
+  font-size: 10px;
+  font-weight: 700;
+  background: #004940;
+  color: #00E5A0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0;
+}
+.ai-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #004940, #00A97A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #00E5A0;
+  margin-left: auto;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px -2px rgba(0, 73, 64, 0.4);
+  transition: all 0.2s;
+  position: relative;
+}
+.ai-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 10px -2px rgba(0, 73, 64, 0.6);
+}
+.ai-btn::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  background: radial-gradient(circle, rgba(0, 229, 160, 0.4), transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: aiBtnPulse 2s ease-in-out infinite;
+}
+@keyframes aiBtnPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.cov-limit {
+  font-size: 12px;
+  color: #6B6B6B;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.cov-amount-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.cov-amount-chip {
+  padding: 6px 10px;
+  background: #F5F2EB;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4A4A4A;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.cov-amount-chip.active {
+  background: white;
+  border-color: #004940;
+  color: #004940;
+}
+
+.cov-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0A0A0A;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+  margin-top: 4px;
+  padding-left: 8px;
+}
+.cov-price small {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: #8B8B8B;
+  margin-bottom: 2px;
+}
+
+/* ========== Bottom CTA Bar ========== */
+.bottom-cta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
+  background: white;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  box-shadow: 0 -6px 24px -10px rgba(0,0,0,0.06);
+}
+.btn-prev {
+  padding: 14px 16px;
+  background: #F5F2EB;
+  color: #4A4A4A;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.btn-next {
+  flex: 1;
+  padding: 16px;
+  background: #0A0A0A;
+  color: white;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.btn-next-price {
+  color: #00E5A0;
+  font-weight: 800;
+}
+
+/* ========== Bottom Sheet (AI Explanation) ========== */
+.sheet-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 200;
+}
+.sheet-overlay.active {
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FAF7F0;
+  border-radius: 24px 24px 0 0;
+  padding: 8px 0 calc(16px + env(safe-area-inset-bottom, 0));
+  max-height: 75%;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1);
+  z-index: 210;
+  box-shadow: 0 -20px 50px -10px rgba(0,0,0,0.2);
+}
+.sheet.active { transform: translateY(0); }
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 10px;
+  margin: 4px auto 12px;
+}
+.sheet-content {
+  padding: 0 22px;
+}
+
+.sheet-ai-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.sheet-ai-avatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #004940, #00A97A);
+  color: #00E5A0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 900;
+  flex-shrink: 0;
+  position: relative;
+}
+.sheet-ai-avatar::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 10px;
+  height: 10px;
+  background: #00E5A0;
+  border: 2px solid #FAF7F0;
+  border-radius: 50%;
+}
+.sheet-ai-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0A0A0A;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sheet-ai-name-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(0, 73, 64, 0.1);
+  color: #004940;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0;
+}
+.sheet-ai-status {
+  font-size: 11px;
+  color: #00A97A;
+  font-weight: 600;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sheet-ai-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #00E5A0;
+  border-radius: 50%;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.sheet-clause-name {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0A0A0A;
+  margin-bottom: 6px;
+}
+.sheet-clause-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6B6B6B;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+
+.sheet-explain-box {
+  background: white;
+  border-radius: 14px;
+  padding: 16px 18px;
+  border: 1px solid rgba(0,0,0,0.04);
+  margin-bottom: 12px;
+  min-height: 80px;
+  position: relative;
+}
+.sheet-explain-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #00A97A;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sheet-explain-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #0A0A0A;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  min-height: 48px;
+}
+.sheet-explain-text.typing::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 16px;
+  background: #004940;
+  margin-left: 1px;
+  vertical-align: -2px;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+.sheet-thinking {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #8B8B8B;
+  font-size: 14px;
+  font-weight: 500;
+}
+.sheet-thinking-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+.sheet-thinking-dots span {
+  width: 6px;
+  height: 6px;
+  background: #00A97A;
+  border-radius: 50%;
+  animation: dotBounce 1.2s infinite ease-in-out;
+}
+.sheet-thinking-dots span:nth-child(2) { animation-delay: 0.15s; }
+.sheet-thinking-dots span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-4px); opacity: 1; }
+}
+
+.sheet-examples {
+  background: white;
+  border-radius: 14px;
+  padding: 16px 18px;
+  border: 1px solid rgba(0,0,0,0.04);
+  margin-bottom: 12px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s;
+}
+.sheet-examples.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.sheet-examples-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6B6B6B;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.sheet-example {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #2A2A2A;
+  font-weight: 500;
+}
+.sheet-example::before {
+  content: '•';
+  color: #004940;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.sheet-tip {
+  background: #FFF9E6;
+  border: 1px solid #FFE58F;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #7A5C00;
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s 0.1s;
+}
+.sheet-tip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.sheet-tip strong {
+  font-weight: 800;
+}
+
+.sheet-cta {
+  width: 100%;
+  padding: 16px;
+  background: #0A0A0A;
+  color: white;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s 0.2s;
+}
+.sheet-cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.sheet-cta.added {
+  background: #004940;
+}
+.sheet-cta.added::before { content: '✓ '; color: #00E5A0; }
+
+.sheet-secondary {
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6B6B6B;
+  margin-top: 8px;
+  opacity: 0;
+  transition: opacity 0.4s 0.25s;
+}
+.sheet-secondary.visible { opacity: 1; }
+
+/* ========== Dev Note ========== */
+.dev-note {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(10, 10, 10, 0.88);
+  color: white;
+  font-size: 11px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  z-index: 1000;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+}
+.dev-note small { color: #00E5A0; font-weight: 700; }
+@media (max-width: 480px) { .dev-note { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="desktop-frame">
+  <div class="phone" id="phone">
+
+    <!-- ========== Page Header ========== -->
+    <div class="page-header">
+      <div class="topbar">
+        <button class="topbar-btn">←</button>
+        <div class="topbar-title">담보·특약 선택</div>
+        <button class="topbar-btn">✕</button>
+      </div>
+      <div class="progress-bar">
+        <div class="step done">① 정보입력</div>
+        <div class="step-sep done"></div>
+        <div class="step active">② 담보선택</div>
+        <div class="step-sep"></div>
+        <div class="step">③ 결제</div>
+      </div>
+      <div class="quote-bar">
+        <div>
+          <div class="quote-label">예상 연보험료</div>
+          <div class="quote-price">685,200<small>원</small></div>
+        </div>
+        <div class="quote-save">
+          오프라인 대비 19%
+          <strong>-161,800원</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Main Content ========== -->
+    <div class="main-scroll">
+
+      <!-- AI Intro -->
+      <div class="ai-intro">
+        <div class="ai-intro-icon">✨</div>
+        <div class="ai-intro-text">
+          <div class="ai-intro-title">어려운 용어, AI가 쉽게 알려드려요</div>
+          <div class="ai-intro-sub">담보 이름 옆 ✨ 버튼을 눌러보세요</div>
+        </div>
+      </div>
+
+      <!-- 필수 담보 Section -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">필수 가입 담보</div>
+          <div class="section-title-sub">의무보험</div>
+        </div>
+        <div class="section-body">
+
+          <div class="cov-item" data-cov="dae-in-1">
+            <div class="cov-check locked"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">대인배상Ⅰ</div>
+                <div class="cov-required">필수</div>
+                <button class="ai-btn" onclick="openSheet('dae-in-1')">✨</button>
+              </div>
+              <div class="cov-limit">상대방 사망/후유장해 시 법정 한도 보상</div>
+            </div>
+            <div class="cov-price">
+              <small>기본 포함</small>
+              의무가입
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="dae-mul">
+            <div class="cov-check locked"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">대물배상</div>
+                <div class="cov-required">필수</div>
+                <button class="ai-btn" onclick="openSheet('dae-mul')">✨</button>
+              </div>
+              <div class="cov-limit">상대 차량·시설물 피해 보상</div>
+              <div class="cov-amount-selector">
+                <button class="cov-amount-chip">2천만</button>
+                <button class="cov-amount-chip">1억</button>
+                <button class="cov-amount-chip active">2억</button>
+                <button class="cov-amount-chip">5억</button>
+                <button class="cov-amount-chip">10억</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 선택 담보 Section -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">선택 가입 담보</div>
+          <div class="section-info">3/4 선택</div>
+        </div>
+        <div class="section-body">
+
+          <div class="cov-item" data-cov="dae-in-2">
+            <div class="cov-check checked" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">대인배상Ⅱ</div>
+                <div class="cov-recommended">추천</div>
+                <button class="ai-btn" onclick="openSheet('dae-in-2')">✨</button>
+              </div>
+              <div class="cov-limit">대인Ⅰ 초과분 보상 · 무한 가입 권장</div>
+              <div class="cov-amount-selector">
+                <button class="cov-amount-chip">1억</button>
+                <button class="cov-amount-chip">5억</button>
+                <button class="cov-amount-chip active">무한</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="ja-sin">
+            <div class="cov-check" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">자기신체사고</div>
+                <button class="ai-btn" onclick="openSheet('ja-sin')">✨</button>
+              </div>
+              <div class="cov-limit">본인·가족 탑승자 부상 시 치료비</div>
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="ja-sang">
+            <div class="cov-check checked" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">자동차상해</div>
+                <div class="cov-recommended">추천</div>
+                <button class="ai-btn" onclick="openSheet('ja-sang')">✨</button>
+              </div>
+              <div class="cov-limit">자기신체사고 확장형 · 보장 한도 큼</div>
+              <div class="cov-amount-selector">
+                <button class="cov-amount-chip">1억/2천만</button>
+                <button class="cov-amount-chip active">3억/5천만</button>
+                <button class="cov-amount-chip">5억/1억</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="ja-cha">
+            <div class="cov-check checked" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">자기차량손해</div>
+                <button class="ai-btn" onclick="openSheet('ja-cha')">✨</button>
+              </div>
+              <div class="cov-limit">내 차 파손·도난·화재 보상</div>
+              <div class="cov-amount-selector">
+                <button class="cov-amount-chip">20만원</button>
+                <button class="cov-amount-chip active">30만원</button>
+                <button class="cov-amount-chip">50만원</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="mu-bo">
+            <div class="cov-check checked" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">무보험차상해</div>
+                <button class="ai-btn" onclick="openSheet('mu-bo')">✨</button>
+              </div>
+              <div class="cov-limit">보험 없는 상대·뺑소니 사고 내 치료비</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 특약 Section -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">추가 특약</div>
+          <div class="section-info">2/5 선택</div>
+        </div>
+        <div class="section-body">
+
+          <div class="cov-item" data-cov="emergency">
+            <div class="cov-check checked" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">긴급출동서비스</div>
+                <button class="ai-btn" onclick="openSheet('emergency')">✨</button>
+              </div>
+              <div class="cov-limit">배터리·견인·타이어 무료 출동 연 10회</div>
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="legal">
+            <div class="cov-check" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">법률비용지원특약</div>
+                <button class="ai-btn" onclick="openSheet('legal')">✨</button>
+              </div>
+              <div class="cov-limit">교통사고 형사 대응 변호사·벌금·합의금</div>
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="other-car">
+            <div class="cov-check" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">다른자동차운전담보특약</div>
+                <button class="ai-btn" onclick="openSheet('other-car')">✨</button>
+              </div>
+              <div class="cov-limit">렌터카·가족 차량 임시 운전 시 보장</div>
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="blackbox">
+            <div class="cov-check checked" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">블랙박스장착할인특약</div>
+                <button class="ai-btn" onclick="openSheet('blackbox')">✨</button>
+              </div>
+              <div class="cov-limit">블랙박스 장착 차량 보험료 할인</div>
+            </div>
+          </div>
+
+          <div class="cov-item" data-cov="mileage">
+            <div class="cov-check" onclick="toggleCov(this)"></div>
+            <div class="cov-body">
+              <div class="cov-top-row">
+                <div class="cov-name">마일리지특약</div>
+                <button class="ai-btn" onclick="openSheet('mileage')">✨</button>
+              </div>
+              <div class="cov-limit">주행거리 약정 시 최대 45% 할인</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="height: 20px;"></div>
+    </div>
+
+    <!-- Bottom CTA Bar -->
+    <div class="bottom-cta">
+      <button class="btn-prev">이전</button>
+      <button class="btn-next">
+        선택 완료 <span class="btn-next-price">685,200원</span>
+      </button>
+    </div>
+
+    <!-- Bottom Sheet Overlay -->
+    <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+
+    <!-- Bottom Sheet -->
+    <div class="sheet" id="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-content">
+        <div class="sheet-ai-header">
+          <div class="sheet-ai-avatar">✨</div>
+          <div>
+            <div class="sheet-ai-name">
+              DB AI 어시스턴트
+              <span class="sheet-ai-name-badge">BETA</span>
+            </div>
+            <div class="sheet-ai-status">온라인 · 바로 답변해요</div>
+          </div>
+        </div>
+
+        <div class="sheet-clause-tag" id="sheetTag">자동차보험 · 선택 담보</div>
+        <div class="sheet-clause-name" id="sheetName">담보명</div>
+
+        <div class="sheet-explain-box">
+          <div class="sheet-explain-label">✨ 쉬운말 설명</div>
+          <div class="sheet-explain-text" id="sheetText">
+            <div class="sheet-thinking">
+              답변을 준비하고 있어요
+              <span class="sheet-thinking-dots"><span></span><span></span><span></span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet-examples" id="sheetExamples">
+          <div class="sheet-examples-label">💡 이럴 때 써요</div>
+          <div id="sheetExamplesList"></div>
+        </div>
+
+        <div class="sheet-tip" id="sheetTip">
+          <span>💡</span>
+          <span id="sheetTipText"></span>
+        </div>
+
+        <button class="sheet-cta" id="sheetCta" onclick="addCoverageFromSheet()">
+          이 담보 추가하기
+        </button>
+        <button class="sheet-secondary" id="sheetSecondary" onclick="closeSheet()">
+          닫기
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="dev-note">
+  <small>프로토타입</small> · ✨ 버튼의 AI 설명은 미리 작성된 텍스트를 타이핑 효과로 노출합니다
+</div>
+
+<script>
+// ========== Clause Content DB ==========
+// 각 담보별로 AI 설명, 예시, 팁을 미리 작성
+const CLAUSES = {
+  'dae-in-1': {
+    name: '대인배상Ⅰ',
+    tag: '자동차보험 · 필수 담보 (의무보험)',
+    explain: '다른 사람이 사고로 다치거나 사망했을 때 법으로 꼭 들어야 하는 가장 기본 보상이에요. 이 담보 없이는 자동차 등록 자체가 안 돼요. 한도는 정부가 정한 법정 한도까지만 보장돼요.',
+    examples: [
+      '횡단보도에서 보행자를 치어 다치게 한 경우',
+      '교차로에서 상대방 운전자가 중상을 입은 경우'
+    ],
+    tip: '<strong>모든 운전자 필수</strong>예요. 한도를 넘는 금액은 대인배상Ⅱ로 커버해야 해요.',
+    canAdd: false
+  },
+
+  'dae-mul': {
+    name: '대물배상',
+    tag: '자동차보험 · 필수 담보 (의무보험)',
+    explain: '내가 운전하다 남의 차, 건물, 가드레일, 가로등 같은 재물을 망가뜨렸을 때 수리비·배상금을 내주는 보험이에요. 최근 외제차 사고가 많아서 최소 2억 이상 권장돼요.',
+    examples: [
+      '외제차를 긁거나 추돌해 수천만원 수리비가 나올 때',
+      '아파트 지하주차장 기둥·시설물을 파손했을 때',
+      '신호등·가로등·가드레일 등 공공시설 파손'
+    ],
+    tip: '요즘 도로에 <strong>억 단위 외제차</strong>가 많아서 2천만원으론 부족할 수 있어요. 2억~5억 추천.',
+    canAdd: false
+  },
+
+  'dae-in-2': {
+    name: '대인배상Ⅱ',
+    tag: '자동차보험 · 선택 담보',
+    explain: '대인배상Ⅰ의 법정 한도를 넘어서는 금액을 추가로 보상해줘요. 사망·중상해 사고는 수억원이 나오는 경우가 많아서 사실상 필수예요. 대부분 "무한"으로 가입해요.',
+    examples: [
+      '사고로 상대방이 사망해 5~10억 배상금이 청구된 경우',
+      '피해자가 장애 판정을 받아 평생 치료·간병비가 필요한 경우',
+      '여러 명을 다치게 한 다중 피해 사고'
+    ],
+    tip: '보험료 차이가 크지 않으니 <strong>"무한"으로 가입</strong>하는 것이 가장 안전해요.',
+    canAdd: true
+  },
+
+  'ja-sin': {
+    name: '자기신체사고',
+    tag: '자동차보험 · 선택 담보',
+    explain: '사고로 본인이나 탑승 가족이 다쳤을 때 치료비·후유장해 보상금을 받을 수 있는 담보예요. 상대가 100% 잘못한 사고여도 내 보험에서 먼저 받을 수 있어요.',
+    examples: [
+      '내가 단독으로 가드레일을 들이받아 병원에 간 경우',
+      '내 과실이 있는 사고로 동승 가족이 다친 경우',
+      '상대방 보험 처리가 늦어질 때 먼저 내 치료비 받기'
+    ],
+    tip: '<strong>자동차상해</strong>가 상위 버전으로, 보장 한도가 훨씬 커요. 둘 중 하나만 고르면 자동차상해가 추천돼요.',
+    canAdd: true
+  },
+
+  'ja-sang': {
+    name: '자동차상해',
+    tag: '자동차보험 · 선택 담보 (자기신체사고 상위)',
+    explain: '자기신체사고보다 보장 범위와 한도가 훨씬 큰 담보예요. 실제 치료비·소득 손실까지 폭넓게 보상해서 중상해 사고 대비용으로 추천돼요. 자기신체사고 대신 이걸 고르는 분이 많아요.',
+    examples: [
+      '중상해로 장기 입원·수술이 필요할 때',
+      '후유장해가 남아 소득이 줄어든 경우',
+      '직장인·자영업자가 휴업손해까지 보상받고 싶을 때'
+    ],
+    tip: '자기신체사고와 <strong>중복 가입은 안 돼요</strong>. 둘 중 하나만 선택. 보험료 차이가 크지 않아서 자동차상해 추천.',
+    canAdd: true
+  },
+
+  'ja-cha': {
+    name: '자기차량손해',
+    tag: '자동차보험 · 선택 담보 (자차)',
+    explain: '흔히 "자차"라고 부르는 담보예요. 내 차가 사고·도난·화재·홍수 등으로 파손됐을 때 수리비를 받을 수 있어요. 차량가액이 높을수록 필요해요.',
+    examples: [
+      '내 실수로 전봇대를 들이받아 범퍼·본넷이 파손된 경우',
+      '주차장에서 뺑소니 당해서 누가 긁고 갔는지 모를 때',
+      '집중호우로 차가 침수된 경우'
+    ],
+    tip: '차량가액이 <strong>1,000만원 이하</strong>면 자차 빼고 보험료 아끼는 분도 많아요. 본인 판단.',
+    canAdd: true
+  },
+
+  'mu-bo': {
+    name: '무보험차상해',
+    tag: '자동차보험 · 선택 담보',
+    explain: '이름 때문에 오해되는데, "상대방"이 무보험이거나 뺑소니일 때 내 치료비를 받는 담보예요. 내가 무보험이란 뜻이 아니에요. 보험료가 저렴해서 대부분 가입해요.',
+    examples: [
+      '뺑소니 사고를 당했는데 가해자를 못 찾는 경우',
+      '상대 운전자가 책임보험만 있거나 무보험인 경우',
+      '외국인 운전자가 보험 없이 사고 낸 경우'
+    ],
+    tip: '월 보험료 <strong>몇천원 수준</strong>인데 혜택은 커서 거의 필수예요.',
+    canAdd: true
+  },
+
+  'emergency': {
+    name: '긴급출동서비스',
+    tag: '자동차보험 · 추가 특약',
+    explain: '배터리 방전, 타이어 펑크, 견인, 비상급유 등 운행 중 문제가 생겼을 때 무료로 부를 수 있는 서비스예요. 연 10회 정도 이용 가능해요.',
+    examples: [
+      '한겨울에 시동이 안 걸릴 때 배터리 점프',
+      '고속도로에서 타이어 펑크 났을 때 견인',
+      '기름이 떨어져 주유소까지 못 갈 때 비상급유',
+      '문 닫힌 채 키를 차 안에 두고 나왔을 때'
+    ],
+    tip: 'AAA·긴급출동 전문업체 따로 부르는 것보다 훨씬 <strong>저렴해요</strong>. 사실상 가입 필수.',
+    canAdd: true
+  },
+
+  'legal': {
+    name: '법률비용지원특약',
+    tag: '자동차보험 · 추가 특약',
+    explain: '교통사고로 형사처벌 대상이 됐을 때 변호사 선임비, 벌금, 형사합의금을 지원해주는 특약이에요. 중대 사고나 12대 중과실 사고에 대비해서 가입해요.',
+    examples: [
+      '스쿨존 사고(민식이법)로 형사처벌 위험 상황',
+      '음주 아닌 사고지만 중상해가 발생한 경우',
+      '신호위반·중앙선 침범 등 12대 중과실 사고',
+      '상대방과 형사합의가 필요한 경우'
+    ],
+    tip: '한 번 사고로 <strong>수천만원</strong> 나올 수 있는 비용을 커버해요. 월 수천원으로 가입하면 안전.',
+    canAdd: true
+  },
+
+  'other-car': {
+    name: '다른자동차운전담보특약',
+    tag: '자동차보험 · 추가 특약',
+    explain: '내 차 외에 친구 차, 부모님 차, 렌터카를 잠깐 운전하다 사고 났을 때 내 보험으로 처리할 수 있게 해주는 특약이에요.',
+    examples: [
+      '친구 차를 잠깐 몰아주다 접촉사고가 난 경우',
+      '렌터카로 여행 가서 사고가 난 경우',
+      '부모님 차 대신 병원 모시러 가다 사고 난 경우'
+    ],
+    tip: '렌터카 자차보험 따로 안 들어도 <strong>이 특약으로 커버</strong>되는 경우가 많아 여행자에게 유용해요.',
+    canAdd: true
+  },
+
+  'blackbox': {
+    name: '블랙박스장착할인특약',
+    tag: '자동차보험 · 할인 특약',
+    explain: '블랙박스가 장착된 차량에 보험료를 할인해주는 특약이에요. 장착 사진만 등록하면 적용되고, 사고 원인 판단에도 도움이 돼서 사실상 필수예요.',
+    examples: [
+      '이미 블랙박스가 장착되어 있는 경우 (당연히 선택)',
+      '새로 장착할 예정이어도 등록 후 할인 적용',
+      '사고 시 블랙박스 영상으로 과실 증명까지'
+    ],
+    tip: '<strong>장착만 했다면 무조건 선택</strong>하는 게 이득. 할인율은 차종·조건에 따라 달라요.',
+    canAdd: true
+  },
+
+  'mileage': {
+    name: '마일리지특약',
+    tag: '자동차보험 · 할인 특약',
+    explain: '연간 주행거리를 미리 약정하고 적게 탈수록 보험료를 크게 할인해주는 특약이에요. 최대 45%까지 할인돼서 적게 타는 사람에게 유리해요.',
+    examples: [
+      '주말에만 타는 분 (연 5천km 이하)',
+      '재택근무로 차를 거의 안 타는 분',
+      '세컨드카로 가끔만 운행하는 분',
+      '은퇴 후 주행거리가 줄어든 분'
+    ],
+    tip: '약정 거리를 <strong>초과하면 환급이 줄어들</strong> 수 있어요. 본인 주행패턴 잘 파악해서 선택.',
+    canAdd: true
+  }
+};
+
+// ========== State ==========
+let currentClauseId = null;
+let typingInterval = null;
+
+// ========== Sheet Functions ==========
+function openSheet(clauseId) {
+  const clause = CLAUSES[clauseId];
+  if (!clause) return;
+
+  currentClauseId = clauseId;
+
+  // Reset states
+  document.getElementById('sheetText').classList.remove('typing');
+  document.getElementById('sheetExamples').classList.remove('visible');
+  document.getElementById('sheetTip').classList.remove('visible');
+  document.getElementById('sheetCta').classList.remove('visible');
+  document.getElementById('sheetSecondary').classList.remove('visible');
+
+  // Set header info
+  document.getElementById('sheetTag').textContent = clause.tag;
+  document.getElementById('sheetName').textContent = clause.name;
+
+  // Show thinking state
+  document.getElementById('sheetText').innerHTML = `
+    <div class="sheet-thinking">
+      답변을 준비하고 있어요
+      <span class="sheet-thinking-dots"><span></span><span></span><span></span></span>
+    </div>
+  `;
+
+  // Show sheet
+  document.getElementById('sheetOverlay').classList.add('active');
+  document.getElementById('sheet').classList.add('active');
+
+  // Hide examples/tip initially
+  document.getElementById('sheetExamples').style.display = 'none';
+  document.getElementById('sheetTip').style.display = clause.tip ? 'flex' : 'none';
+
+  // Start typing after 0.9s delay
+  if (typingInterval) clearInterval(typingInterval);
+  setTimeout(() => typeOutExplanation(clause), 900);
+}
+
+function typeOutExplanation(clause) {
+  const textEl = document.getElementById('sheetText');
+  textEl.innerHTML = '';
+  textEl.classList.add('typing');
+
+  let i = 0;
+  const text = clause.explain;
+  
+  typingInterval = setInterval(() => {
+    if (i >= text.length) {
+      clearInterval(typingInterval);
+      textEl.classList.remove('typing');
+      // Show examples
+      showExamples(clause);
+      return;
+    }
+    textEl.textContent += text[i];
+    i++;
+  }, 22);
+}
+
+function showExamples(clause) {
+  const examplesEl = document.getElementById('sheetExamples');
+  const listEl = document.getElementById('sheetExamplesList');
+  
+  listEl.innerHTML = '';
+  clause.examples.forEach(ex => {
+    const div = document.createElement('div');
+    div.className = 'sheet-example';
+    div.textContent = ex;
+    listEl.appendChild(div);
+  });
+  
+  examplesEl.style.display = 'block';
+  setTimeout(() => examplesEl.classList.add('visible'), 50);
+
+  // Show tip
+  if (clause.tip) {
+    document.getElementById('sheetTipText').innerHTML = clause.tip;
+    setTimeout(() => document.getElementById('sheetTip').classList.add('visible'), 150);
+  }
+
+  // Show CTA
+  updateSheetCta();
+  setTimeout(() => {
+    document.getElementById('sheetCta').classList.add('visible');
+    document.getElementById('sheetSecondary').classList.add('visible');
+  }, 250);
+}
+
+function updateSheetCta() {
+  const clause = CLAUSES[currentClauseId];
+  const ctaEl = document.getElementById('sheetCta');
+  
+  if (!clause.canAdd) {
+    // Required coverage - already locked in
+    ctaEl.textContent = '필수 가입 담보입니다';
+    ctaEl.classList.add('added');
+    ctaEl.style.pointerEvents = 'none';
+    return;
+  }
+
+  // Check if currently checked
+  const covItem = document.querySelector(`.cov-item[data-cov="${currentClauseId}"]`);
+  const check = covItem?.querySelector('.cov-check');
+  const isChecked = check?.classList.contains('checked');
+
+  if (isChecked) {
+    ctaEl.textContent = '이미 선택되어 있어요';
+    ctaEl.classList.add('added');
+  } else {
+    ctaEl.textContent = '이 담보 추가하기 →';
+    ctaEl.classList.remove('added');
+  }
+  ctaEl.style.pointerEvents = 'auto';
+}
+
+function addCoverageFromSheet() {
+  const covItem = document.querySelector(`.cov-item[data-cov="${currentClauseId}"]`);
+  const check = covItem?.querySelector('.cov-check');
+  
+  if (!check || check.classList.contains('locked')) return;
+
+  if (!check.classList.contains('checked')) {
+    check.classList.add('checked');
+    // Update CTA state
+    updateSheetCta();
+    // Close sheet after brief delay for feedback
+    setTimeout(closeSheet, 600);
+  } else {
+    closeSheet();
+  }
+}
+
+function closeSheet() {
+  document.getElementById('sheetOverlay').classList.remove('active');
+  document.getElementById('sheet').classList.remove('active');
+  if (typingInterval) {
+    clearInterval(typingInterval);
+    typingInterval = null;
+  }
+  currentClauseId = null;
+}
+
+function toggleCov(el) {
+  if (el.classList.contains('locked')) return;
+  el.classList.toggle('checked');
+}
+
+// Amount chip interaction (simple visual toggle within group)
+document.querySelectorAll('.cov-amount-selector').forEach(group => {
+  group.querySelectorAll('.cov-amount-chip').forEach(chip => {
+    chip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      group.querySelectorAll('.cov-amount-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+});
+
+// Close sheet on swipe down (simple)
+let startY = 0;
+const sheet = document.getElementById('sheet');
+sheet.addEventListener('touchstart', (e) => {
+  startY = e.touches[0].clientY;
+});
+sheet.addEventListener('touchend', (e) => {
+  const endY = e.changedTouches[0].clientY;
+  if (endY - startY > 80 && sheet.scrollTop === 0) {
+    closeSheet();
+  }
+});
+</script>
+</body>
+</html>
